@@ -1,0 +1,19 @@
+{
+  "name": "module-federation-example",
+  "homepage": "https://github.com/AlexKyrdyukov/module-federation-example",
+  "private": false,
+  "scripts": {
+    "start": "webpack serve --config host/webpack.config.js",
+    "build": "webpack --config host/webpack.config.js",
+    "build-remote": "webpack --config remote/webpack.config.js",
+    // "predeploy": "npm run build && npm run build-remote",
+    "deploy": "gh-pages -d dist"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "html-webpack-plugin": "^5.6.3",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.15.2"
+  }
+}

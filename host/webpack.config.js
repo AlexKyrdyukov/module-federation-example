@@ -1,14 +1,35 @@
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const path = require('path');
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ModuleFederationPlugin = require('webpack').container.ModuleFederationPlugin;
+const webpack = require('webpack');
+
 module.exports = {
-  entry: '.src/main.js',
-  output: { publicPath: 'auto' },
   mode: 'development',
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),  // Папка для сборки
+    filename: 'bundle.js',
+    publicPath: '/',  // Важно для GitHub Pages
+  },
+  devServer: {
+    port: 3000,
+    open: true,
+    hot: true,
+    headers: {
+      'Cache-Control': 'no-store',  // Отключаем кеширование
+    },
+  },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new ModuleFederationPlugin({
-      name: 'hostApp',
+      name: 'host',
       remotes: {
-        remoteApp: 'remoteApp@https://ВАШ_УРЛ/remoteEntry.js',
+        remote: 'remote@http://localhost:3001/remoteEntry.js', // Подключаем remote
       },
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
     }),
   ],
 };
